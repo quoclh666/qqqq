@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Câu đố vui</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Câu đố vui ngày sinh nhật!</h1>
+    <p id="question"></p>
+    <input type="text" id="answerInput">
+    <button onclick="checkAnswer()">Gửi</button>
+    <p id="result"></p>
+    <button onclick="redirectToNextQuestion()" id="nextQuestionBtn" style="display: none;">Câu hỏi tiếp theo</button>
+    <button onclick="claimGift()" id="claimGiftBtn" style="display: none;">Nhận phần quà</button>
+    <p id="stats" style="display: none;">Câu hỏi: <span id="totalQuestions">0</span> | Số câu đúng: <span id="correctAnswers">0</span></p>
+  </div>
+
+  <script>
+    var questions = [
+      { question: "Con gì có 4 chân nhưng không đi được?", answer: "bàn" },
+      { question: "Cái gì chỉ có thể đến sau khi đi qua?", answer: "tuổi" },
+      { question: "Cái gì sẽ không bao giờ tồn tại nếu nó được phát đi?", answer: "tin đồn" },
+      { question: "Râu gì rất khó nhìn thấy bằng mắt thường?", answer: "râu cà rốt" },
+      { question: "Người ta thường chúc nhau gặp nhau mừng lễ gì?", answer: "halloween" },
+    ];
+    var currentQuestionIndex = 0;
+    var correctAnswers = 0;
+
+    function displayQuestion() {
+      document.getElementById("question").innerText = questions[currentQuestionIndex].question;
+    }
+
+    function checkAnswer() {
+      var userAnswer = document.getElementById("answerInput").value.toLowerCase();
+      var correctAnswer = questions[currentQuestionIndex].answer.toLowerCase();
+
+      if (userAnswer === correctAnswer) {
+        document.getElementById("result").innerText = "Chúc mừng! Đáp án đúng!";
+        correctAnswers++;
+      } else {
+        document.getElementById("result").innerText = "Đáp án sai, hãy thử lại!";
+      }
+
+      document.getElementById("answerInput").value = "";
+      document.getElementById("nextQuestionBtn").style.display = "block";
+      document.getElementById("claimGiftBtn").style.display = "none";
+    }
+
+    function redirectToNextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
+        displayQuestion();
+        document.getElementById("result").innerText = "";
+        document.getElementById("nextQuestionBtn").style.display = "none";
+      } else {
+        document.getElementById("result").innerText = "Bạn đã trả lời đúng " + correctAnswers + " câu hỏi!";
+        document.getElementById("nextQuestionBtn").style.display = "none";
+        document.getElementById("claimGiftBtn").style.display = "block";
+        document.getElementById("stats").style.display = "block";
+        document.getElementById("totalQuestions").innerText = questions.length;
+        document.getElementById("correctAnswers").innerText = correctAnswers;
+      }
+    }
+
+    function claimGift() {
+      document.getElementById("result").innerText = "Chúc mừng! Bạn đã nhận được phần quà!";
+      document.getElementById("nextQuestionBtn").style.display = "none";
+      document.getElementById("claimGiftBtn").style.display = "none";
+    }
+
+    // Chuyển hướng đến trang web tiếp theo (trang "page4.html" chẳng hạn)
+    function redirectToNextPage() {
+      window.location.href = "page4.html";
+    }
+
+    // Gọi hàm hiển thị câu hỏi khi trang tải
+    displayQuestion();
+  </script>
+</body>
+</html>
